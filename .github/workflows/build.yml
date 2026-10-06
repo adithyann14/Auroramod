@@ -19,7 +19,11 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - uses: android-actions/setup-android@v3
+      # The runner image already includes the Android SDK (ANDROID_HOME),
+      # so no setup-android action is needed. Just accept licenses so
+      # Gradle can auto-download any missing platform/build-tools.
+      - name: Accept Android SDK licenses
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
 
       - uses: gradle/actions/setup-gradle@v4
 
